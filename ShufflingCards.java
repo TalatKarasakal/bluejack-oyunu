@@ -61,11 +61,9 @@ public class ShufflingCards {
         deck = Arrays.copyOf(deck, deck.length - 1);
         computerBlue += hiddenCard.isB() ? 1 : 0; //if computer has a blue card "computerBlue" increases.
 
-        for(int f=0;f<5;f++){
-            Card card = deck[deck.length-1];
-            deck = Arrays.copyOf(deck, deck.length - 1);
-            computerDeck[computerIndex++] = card;
-            }
+        for (int i = 0; i < 5; i++) {
+            computerDeck[computerIndex++] = deck[i];
+        }
             for(int i = 0 ; i < 3 ; i++) {
                 Card card = additionalDeck[additionalDeck.length - 1];
                 additionalDeck = Arrays.copyOf(additionalDeck, additionalDeck.length - 1);
@@ -105,11 +103,8 @@ public class ShufflingCards {
         userSum = 0;
         userBlue = 0;
 
-        for(int i=0;i<5;i++){
-        Card card = deck[deck.length - 1];
-        deck = Arrays.copyOf(deck, deck.length - 1);
-        userBlue += card.isB() ? 1 : 0;
-        userDeck[userIndex++] = card;
+        for (int i = deck.length - 5; i < deck.length; i++) {
+            userDeck[userIndex++] = deck[i];
         }
         for(int i = 0 ; i < 3 ; i++){
             Card card = additionalDeck[additionalDeck.length - 1];
