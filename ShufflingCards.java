@@ -13,35 +13,32 @@ public class ShufflingCards {
         public String toString() {
             return value + (color.isEmpty() ? "" : "-" + color);
         }
-
-        public int getValue(){
-            return Integer.parseInt(value);
-        }
-
         public boolean isB(){
             return value.equals("B");
         } 
     }
+    Random random = new Random(); // shuffle the deck.
 
     Card[] deck = new Card[40];
     Card[] additionalDeck = new Card[48];
-    String[] signedDeck = {"+/-", "+/-", "x2", "x2", "0"};
-    Random random = new Random(); // shuffle the deck.
+    int[] signedDeckChooser = {1, 1, 1, 1, 0};
     
     //computer
     Card hiddenCard;
     Card[] computerDeck = new Card[10];
-    String[] computerHand = new String[4];
+    Card[] computerHand = new Card[4];
     int computerSum;
     int computerBlue;
     int computerIndex = 0;
+    int computerHandIndex = 0;
 
     //user
     Card[] userDeck = new Card[10];
-    String[] userHand = new String[4];
+    Card[] userHand = new Card[4];
     int userSum;
     int userBlue;
     int userIndex = 0;
+    int userHandIndex = 0;
     
     ShufflingCards(){
         startgame();
@@ -50,11 +47,13 @@ public class ShufflingCards {
     public void startgame() {
         //deck
         buildDeck();
+        buildAdditionalSignDeck();
         shuffleDeck();
+        shuffleAdditionalDeck();
 
-        //computer
+        //computer deck
         computerDeck = new Card[10];
-        computerHand = new String[4];
+        computerHand = new Card[4];
         computerSum = 0;
         computerBlue = 0;
 
@@ -65,43 +64,85 @@ public class ShufflingCards {
         for(int f=0;f<5;f++){
             Card card = deck[deck.length-1];
             deck = Arrays.copyOf(deck, deck.length - 1);
-            computerBlue += card.isB() ? 1 : 0;
             computerDeck[computerIndex++] = card;
             }
-        for(int i = 0 ; i < 3 ; i++) {
+            for(int i = 0 ; i < 3 ; i++) {
                 Card card = additionalDeck[additionalDeck.length - 1];
                 additionalDeck = Arrays.copyOf(additionalDeck, additionalDeck.length - 1);
                 computerDeck[computerIndex++] = card;
             }
-        for (int i = 0; i < 2; i++) {
-            int randomIndex = random.nextInt(signedDeck.length);
-            String selectedValue = signedDeck[randomIndex];
-            computerDeck[computerIndex++] = new Card(selectedValue, "");
+            
+            int randomIndex1 = random.nextInt(signedDeckChooser.length);
+            int selectedElement1 = signedDeckChooser[randomIndex1];
+    
+            boolean result1 = (selectedElement1 == 1);
+            if (result1) {   
+                computerDeck[8] = new Card("2x", "");
+                computerDeck[9] = new Card("+/-", "");
+            } else {   
+                for (int i = 0; i < 2; i++) {
+                    Card card = additionalDeck[additionalDeck.length - 1];
+                    additionalDeck = Arrays.copyOf(additionalDeck, additionalDeck.length - 1);
+                    computerDeck[computerIndex++] = card;
+                }
             }
 
-        //user
+            //computer hand
+         for (int i = 0; i < 4; i++) {
+            int randomIndex = random.nextInt(computerDeck.length);
+            computerHand[i] = computerDeck[randomIndex];
+        
+            Card temp = computerDeck[randomIndex];
+            computerDeck[randomIndex] = computerDeck[computerDeck.length - 1];
+            computerDeck[computerDeck.length - 1] = temp;
+        
+            computerDeck = Arrays.copyOfRange(computerDeck, 0, computerDeck.length - 1);
+        }
+
+        //user deck
         userDeck = new Card[10];
-        userHand = new String[4];
+        userHand = new Card[4];
         userSum = 0;
         userBlue = 0;
 
         for(int i=0;i<5;i++){
-            Card card = deck[deck.length - 1];
-            deck = Arrays.copyOf(deck, deck.length - 1);
-            userBlue += card.isB() ? 1 : 0;
+        Card card = deck[deck.length - 1];
+        deck = Arrays.copyOf(deck, deck.length - 1);
+        userBlue += card.isB() ? 1 : 0;
+        userDeck[userIndex++] = card;
+        }
+        for(int i = 0 ; i < 3 ; i++){
+            Card card = additionalDeck[additionalDeck.length - 1];
+            additionalDeck = Arrays.copyOf(additionalDeck, additionalDeck.length - 1);
             userDeck[userIndex++] = card;
-            }
-            for(int i = 0 ; i < 3 ; i++){
+        }
+        int randomIndex2 = random.nextInt(signedDeckChooser.length);
+        int selectedElement2 = signedDeckChooser[randomIndex2];
+
+        boolean result2 = (selectedElement2 == 1);
+
+        if (result2) {
+            userDeck[8] = new Card("2x", "");
+            userDeck[9] = new Card("+/-", "");
+        } else {
+            for (int i = 0; i < 2; i++) {
                 Card card = additionalDeck[additionalDeck.length - 1];
                 additionalDeck = Arrays.copyOf(additionalDeck, additionalDeck.length - 1);
                 userDeck[userIndex++] = card;
             }
-            
-            for (int i = 0; i < 2; i++) {
-                int randomIndex = random.nextInt(signedDeck.length);
-                String selectedValue = signedDeck[randomIndex];
-                userDeck[userIndex++] = new Card(selectedValue, "");
-            }
+        }
+
+        //user hand
+        for (int i = 0; i < 4; i++) {
+            int randomIndex = random.nextInt(userDeck.length);
+            userHand[i] = userDeck[randomIndex];
+        
+            Card temp = userDeck[randomIndex];
+            userDeck[randomIndex] = userDeck[userDeck.length - 1];
+            userDeck[userDeck.length - 1] = temp;
+        
+            userDeck = Arrays.copyOfRange(userDeck, 0, userDeck.length - 1);
+        }
 
         displayPlayerHands();
     }
@@ -158,8 +199,6 @@ public class ShufflingCards {
         }
         //System.out.println("Additional deck after shuffle: " + Arrays.toString(additionalDeck));
     }
-
-    
 
     public void displayPlayerHands() {
         System.out.println("Computer's Deck: " + Arrays.toString(computerDeck));
