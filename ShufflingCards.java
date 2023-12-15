@@ -1,21 +1,29 @@
 package bluejack;
 import java.util.Arrays;
 import java.util.Random;
-public class ShufflingCards {
-    private class Card {
+
+public class ShufflingCards{
+
+    PlayingAlgorithm PlayingAlgorithm;
+    ShufflingCards.Card drawnCard;
+
+    public class Card {
         String value;
         String color;
-
+        
         Card(String value, String color) {
             this.value = value;
             this.color = color;
         }
+        public String getValue() {
+            return value;
+        }
+        public String getColor() {
+            return color;
+        }
         public String toString() {
             return value + (color.isEmpty() ? "" : "-" + color);
         }
-        public boolean isB(){
-            return value.equals("B");
-        } 
     }
     Random random = new Random(); // shuffle the deck.
 
@@ -39,18 +47,20 @@ public class ShufflingCards {
     int userBlue;
     int userIndex = 0;
     int userHandIndex = 0;
-    
-    ShufflingCards(){
+
+    public ShufflingCards() {
         startgame();
     }
 
     public void startgame() {
+        
         //deck
         buildDeck();
         buildAdditionalSignDeck();
         shuffleDeck();
         shuffleAdditionalDeck();
-
+        userHand[userHandIndex++] = new Card(drawnCard.getValue(), drawnCard.getColor());
+        
         //computer deck
         computerDeck = new Card[10];
         computerHand = new Card[4];
@@ -58,45 +68,42 @@ public class ShufflingCards {
         computerBlue = 0;
 
         hiddenCard = deck[deck.length-1];
-        deck = Arrays.copyOf(deck, deck.length - 1);
-        computerBlue += hiddenCard.isB() ? 1 : 0; //if computer has a blue card "computerBlue" increases.
-
+        
         for (int i = 0; i < 5; i++) {
             computerDeck[computerIndex++] = deck[i];
         }
-            for(int i = 0 ; i < 3 ; i++) {
+        for(int i = 0 ; i < 3 ; i++) {
+            Card card = additionalDeck[additionalDeck.length - 1];
+            computerDeck[computerIndex++] = card;
+        }
+        
+        int randomIndex1 = random.nextInt(signedDeckChooser.length);
+
+        int selectedElement1 = signedDeckChooser[randomIndex1];
+
+        boolean result1 = (selectedElement1 == 1);
+        if (result1) {
+            
+            computerDeck[8] = new Card("2x", "");
+            computerDeck[9] = new Card("+/-", "");
+        } else {
+            
+            for (int i = 0; i < 2; i++) {
                 Card card = additionalDeck[additionalDeck.length - 1];
-                additionalDeck = Arrays.copyOf(additionalDeck, additionalDeck.length - 1);
                 computerDeck[computerIndex++] = card;
             }
-            
-            int randomIndex1 = random.nextInt(signedDeckChooser.length);
-            int selectedElement1 = signedDeckChooser[randomIndex1];
-    
-            boolean result1 = (selectedElement1 == 1);
-            if (result1) {   
-                computerDeck[8] = new Card("2x", "");
-                computerDeck[9] = new Card("+/-", "");
-            } else {   
-                for (int i = 0; i < 2; i++) {
-                    Card card = additionalDeck[additionalDeck.length - 1];
-                    additionalDeck = Arrays.copyOf(additionalDeck, additionalDeck.length - 1);
-                    computerDeck[computerIndex++] = card;
-                }
-            }
+        }
 
-            //computer hand
-         for (int i = 0; i < 4; i++) {
+        //computer hand
+        for (int i = 0; i < 4; i++) {
             int randomIndex = random.nextInt(computerDeck.length);
             computerHand[i] = computerDeck[randomIndex];
         
             Card temp = computerDeck[randomIndex];
             computerDeck[randomIndex] = computerDeck[computerDeck.length - 1];
             computerDeck[computerDeck.length - 1] = temp;
-        
-            computerDeck = Arrays.copyOfRange(computerDeck, 0, computerDeck.length - 1);
         }
-
+        
         //user deck
         userDeck = new Card[10];
         userHand = new Card[4];
@@ -108,21 +115,22 @@ public class ShufflingCards {
         }
         for(int i = 0 ; i < 3 ; i++){
             Card card = additionalDeck[additionalDeck.length - 1];
-            additionalDeck = Arrays.copyOf(additionalDeck, additionalDeck.length - 1);
             userDeck[userIndex++] = card;
         }
         int randomIndex2 = random.nextInt(signedDeckChooser.length);
+
         int selectedElement2 = signedDeckChooser[randomIndex2];
 
         boolean result2 = (selectedElement2 == 1);
 
         if (result2) {
+            
             userDeck[8] = new Card("2x", "");
             userDeck[9] = new Card("+/-", "");
         } else {
+            
             for (int i = 0; i < 2; i++) {
                 Card card = additionalDeck[additionalDeck.length - 1];
-                additionalDeck = Arrays.copyOf(additionalDeck, additionalDeck.length - 1);
                 userDeck[userIndex++] = card;
             }
         }
@@ -135,12 +143,12 @@ public class ShufflingCards {
             Card temp = userDeck[randomIndex];
             userDeck[randomIndex] = userDeck[userDeck.length - 1];
             userDeck[userDeck.length - 1] = temp;
-        
-            userDeck = Arrays.copyOfRange(userDeck, 0, userDeck.length - 1);
         }
-
+        
         displayPlayerHands();
+
     }
+
     public void buildDeck() {
         String[] values = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
         String[] color = {"B", "Y", "G", "R"};
@@ -194,11 +202,12 @@ public class ShufflingCards {
         }
         //System.out.println("Additional deck after shuffle: " + Arrays.toString(additionalDeck));
     }
-
+    
     public void displayPlayerHands() {
         System.out.println("Computer's Deck: " + Arrays.toString(computerDeck));
-        System.out.println("Computer's Hand: " + Arrays.toString(Arrays.copyOf(computerDeck, computerIndex)));
+        System.out.println("Computer's Hand: " + Arrays.toString(computerHand));
+        
         System.out.println("User's Deck: " + Arrays.toString(userDeck));
-        System.out.println("User's Hand: " + Arrays.toString(Arrays.copyOf(userDeck, userIndex)));
+        System.out.println("User's Hand: " + Arrays.toString(userHand));    
     }
 }
