@@ -15,8 +15,10 @@ public class PlayingAlgorithm {
     ShufflingCards userHand;
     ShufflingCards computerHand;
     
+    
     int deckIndex = 0;
     boolean gameover=false;
+    boolean tourover=false;
 
     public PlayingAlgorithm() {
         userHand = new ShufflingCards();
@@ -27,24 +29,72 @@ public class PlayingAlgorithm {
     public void playGame() {
 
     while (gameover == false) {
-        
-        System.out.println("Enter a key to play game");
-        scanner.nextLine();
-        
-        ShufflingCards.Card drawnCard = userHand.new Card("value", "color");
 
-        System.out.println("User drawn Card: " + drawnCard);
-        
         int userHandIndex=0;
+        int computerHandIndex=0;
+        
         ShufflingCards shufflingCards = new ShufflingCards();
 
         ShufflingCards.Card computerDrawnCard = computerHand.new Card("value", "color");
         computerDrawnCard = computerHand.deck[deckIndex++];
         System.out.println("Computer drawn Card: " + computerDrawnCard);
-        int computerHandIndex=0;
+        
         
         userSum = calculateUserHandSum(userHand.userHand);
         computerSum = calculateComputerHandSum(computerHand.computerHand);
+        
+        while(tourover == false) {
+            System.out.println("Enter 'P' to play a card, or 'C' to continue:");
+            String userChoice = scanner.nextLine();
+
+            if("P".equals(userChoice)){
+                System.out.println("Enter the number of the card you want to play (1-2-3-4):");
+                int cardNumber = scanner.nextInt();
+                scanner.nextLine();
+
+                ShufflingCards.Card drawnCard = userHand.new Card("value", "color"); // Draw a card for the user
+                System.out.println("User drawm card: " + drawnCard); // Print drawn card by the user
+
+                userHand[userHandIndex++] = new Card(drawnCard.getValue(), drawnCard.getColor()); // Add the drawn card to user's hand
+
+                calculateUserHandSum(userHand); // Calculate user hand sum
+                
+                System.out.println("User: " + userScore + ", Computer: " + computerScore);
+            System.out.println(Arrays.toString(userHand));
+    
+            calculateUserSum();
+
+                if (cardNumber >= 1 && cardNumber <= 4) {
+                    
+                    int selectedCardIndex = cardNumber - 1;
+
+                    Card selectedCard = userHand[selectedCardIndex];
+
+                    if (selectedCard != null) {
+                        
+                        System.out.println("User played the card: " + selectedCard);
+
+                        userHand[selectedCardIndex] = null;
+
+                    } else {
+                        System.out.println("Invalid card number. Please choose a card that is not null.");
+                    }
+                } else {
+                    System.out.println("Invalid card number. Please enter a number between 1 and 4.");
+                }
+            }else if("C".equals(userChoice)){
+            
+            Card drawnCard = deck[deckIndex++]; // Draw a card for the user
+            System.out.println("User drawm card: " + drawnCard); // Print drawn card by the user
+
+            userHand[userHandIndex++] = new Card(drawnCard.getValue(), drawnCard.getColor()); // Add the drawn card to user's hand
+
+            calculateUserHandSum(userHand); // Calculate user hand sum
+            System.out.println("User hand sum: " + userSum);
+        
+            drawnCard = deck[deckIndex++];
+            System.out.println("Computer drawn Card: " + drawnCard);
+            computerHand[computerHandIndex++] = new Card(drawnCard.getValue(), drawnCard.getColor());
 
         if(userSum==20){
             UserScore++;
@@ -52,6 +102,15 @@ public class PlayingAlgorithm {
         if(computerSum==20){
             ComputerScore++;
         }
+
+        System.out.println("User: " + userScore + ", Computer: " + computerScore);
+        System.out.println(Arrays.toString(userHand));
+    
+        calculateUserSum();
+            }else{
+                System.out.println("Invalid choice. Please enter 'P' to play a card, or 'C' to continue.");
+            }
+            }
 
         if(UserScore==3||ComputerScore==3){
             
@@ -129,3 +188,4 @@ public class PlayingAlgorithm {
         
     }
 }
+    
