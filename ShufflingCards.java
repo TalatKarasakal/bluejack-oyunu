@@ -24,6 +24,8 @@ public class ShufflingCards{
         public String toString() {
             return value + (color.isEmpty() ? "" : "-" + color);
         }
+
+        
     }
     Random random = new Random(); // shuffle the deck.
 
@@ -209,5 +211,13 @@ public class ShufflingCards{
         
         System.out.println("User's Deck: " + Arrays.toString(userDeck));
         System.out.println("User's Hand: " + Arrays.toString(userHand));    
+    }
+
+    public Card[] getUserHand() {
+        return userHand;
+    }
+
+    public Card[] getComputerHand() {
+        return computerHand;
     }
 }
