@@ -24,8 +24,6 @@ public class ShufflingCards{
         public String toString() {
             return value + (color.isEmpty() ? "" : "-" + color);
         }
-
-        
     }
     Random random = new Random(); // shuffle the deck.
 
@@ -61,8 +59,9 @@ public class ShufflingCards{
         buildAdditionalSignDeck();
         shuffleDeck();
         shuffleAdditionalDeck();
-        userHand[userHandIndex++] = new Card(drawnCard.getValue(), drawnCard.getColor());
-        
+
+       
+
         //computer deck
         computerDeck = new Card[10];
         computerHand = new Card[4];
@@ -148,7 +147,6 @@ public class ShufflingCards{
         }
         
         displayPlayerHands();
-
     }
 
     public void buildDeck() {
@@ -213,11 +211,57 @@ public class ShufflingCards{
         System.out.println("User's Hand: " + Arrays.toString(userHand));    
     }
 
+    
+
+    
+    public Card[] getdeck(){
+        return deck;
+    }
+    public void setdeck(Card[] deck){
+        this.deck = deck;
+    }
     public Card[] getUserHand() {
         return userHand;
     }
 
     public Card[] getComputerHand() {
         return computerHand;
+    }
+
+    public Card drawUnusedCard() {
+        boolean[] usedCards = new boolean[deck.length];
+
+        for (Card card : userDeck) {
+            markCardAsUsed(card, usedCards);
+        }
+
+        for (Card card : computerDeck) {
+            markCardAsUsed(card, usedCards);
+        }
+
+        for (Card card : computerHand) {
+            markCardAsUsed(card, usedCards);
+        }
+
+        for (Card card : userHand) {
+            markCardAsUsed(card, usedCards);
+        }
+
+        for (int i = 0; i < usedCards.length; i++) {
+            if (!usedCards[i]) {
+                return deck[i];
+            }
+        }
+
+        return null; // Eğer kullanılmayan kart kalmamışsa null dönebilirsiniz.
+    }
+
+    private void markCardAsUsed(Card card, boolean[] usedCards) {
+        for (int i = 0; i < deck.length; i++) {
+            if (deck[i].equals(card)) {
+                usedCards[i] = true;
+                break;
+            }
+        }
     }
 }
