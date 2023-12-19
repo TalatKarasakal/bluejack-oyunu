@@ -1,11 +1,9 @@
 package bluejack;
 import java.util.Arrays;
 import java.util.Random;
+import bluejack.PlayingAlgorithm;
 
 public class ShufflingCards{
-
-    PlayingAlgorithm PlayingAlgorithm;
-    ShufflingCards.Card drawnCard;
 
     public class Card {
         String value;
@@ -53,14 +51,12 @@ public class ShufflingCards{
     }
 
     public void startgame() {
-        
+      
         //deck
         buildDeck();
         buildAdditionalSignDeck();
         shuffleDeck();
         shuffleAdditionalDeck();
-
-       
 
         //computer deck
         computerDeck = new Card[10];
@@ -82,8 +78,7 @@ public class ShufflingCards{
 
         int selectedElement1 = signedDeckChooser[randomIndex1];
 
-        boolean result1 = (selectedElement1 == 1);
-        if (result1) {
+        if (selectedElement1 == 0) {
             
             computerDeck[8] = new Card("2x", "");
             computerDeck[9] = new Card("+/-", "");
@@ -122,9 +117,7 @@ public class ShufflingCards{
 
         int selectedElement2 = signedDeckChooser[randomIndex2];
 
-        boolean result2 = (selectedElement2 == 1);
-
-        if (result2) {
+        if (selectedElement2 == 0) {
             
             userDeck[8] = new Card("2x", "");
             userDeck[9] = new Card("+/-", "");
@@ -211,9 +204,6 @@ public class ShufflingCards{
         System.out.println("User's Hand: " + Arrays.toString(userHand));    
     }
 
-    
-
-    
     public Card[] getdeck(){
         return deck;
     }
@@ -223,11 +213,11 @@ public class ShufflingCards{
     public Card[] getUserHand() {
         return userHand;
     }
-
     public Card[] getComputerHand() {
         return computerHand;
     }
 
+    // drawing unused cards
     public Card drawUnusedCard() {
         boolean[] usedCards = new boolean[deck.length];
 
@@ -253,7 +243,7 @@ public class ShufflingCards{
             }
         }
 
-        return null; // Eğer kullanılmayan kart kalmamışsa null dönebilirsiniz.
+        return null; 
     }
 
     private void markCardAsUsed(Card card, boolean[] usedCards) {
