@@ -68,10 +68,17 @@ public class ShufflingCards{
         
         for (int i = 0; i < 5; i++) {
             computerDeck[computerIndex++] = deck[i];
+            deck[i]=null;
         }
         for(int i = 0 ; i < 3 ; i++) {
-            Card card = additionalDeck[additionalDeck.length - 1];
+            int randomIndex = random.nextInt(additionalDeck.length);
+            if(additionalDeck[randomIndex] != null){
+            Card card = additionalDeck[randomIndex];//additionalDeck.length - 1];
             computerDeck[computerIndex++] = card;
+            additionalDeck[randomIndex]=null;
+            }else{
+                i--;
+            }
         }
         
         int randomIndex1 = random.nextInt(signedDeckChooser.length);
@@ -85,19 +92,26 @@ public class ShufflingCards{
         } else {
             
             for (int i = 0; i < 2; i++) {
-                Card card = additionalDeck[additionalDeck.length - 1];
+                int randomIndex = random.nextInt(additionalDeck.length);
+                if(additionalDeck[randomIndex] != null){
+                Card card = additionalDeck[randomIndex];//additionalDeck.length - 1];
                 computerDeck[computerIndex++] = card;
+                additionalDeck[randomIndex]=null;
+                }else{
+                    i--;
+                }
             }
         }
 
         //computer hand
         for (int i = 0; i < 4; i++) {
             int randomIndex = random.nextInt(computerDeck.length);
+            if(computerDeck[randomIndex] != null){
             computerHand[i] = computerDeck[randomIndex];
-        
-            Card temp = computerDeck[randomIndex];
-            computerDeck[randomIndex] = computerDeck[computerDeck.length - 1];
-            computerDeck[computerDeck.length - 1] = temp;
+            computerDeck[randomIndex] = null;
+            }else{
+               i--;
+            }
         }
         
         //user deck
@@ -110,8 +124,14 @@ public class ShufflingCards{
             userDeck[userIndex++] = deck[i];
         }
         for(int i = 0 ; i < 3 ; i++){
-            Card card = additionalDeck[additionalDeck.length - 1];
+            int randomIndex = random.nextInt(additionalDeck.length);
+            if(additionalDeck[randomIndex] != null){
+            Card card = additionalDeck[randomIndex];
             userDeck[userIndex++] = card;
+            additionalDeck[randomIndex] = null;
+            }else{
+                i--;
+            }
         }
         int randomIndex2 = random.nextInt(signedDeckChooser.length);
 
@@ -124,19 +144,26 @@ public class ShufflingCards{
         } else {
             
             for (int i = 0; i < 2; i++) {
+                int randomIndex = random.nextInt(additionalDeck.length);
+                if(additionalDeck[randomIndex] != null){
                 Card card = additionalDeck[additionalDeck.length - 1];
                 userDeck[userIndex++] = card;
+                additionalDeck[randomIndex]=null;
+                }else{
+                    i--;
+                }
             }
         }
 
         //user hand
         for (int i = 0; i < 4; i++) {
             int randomIndex = random.nextInt(userDeck.length);
+            if(userDeck[randomIndex] != null){
             userHand[i] = userDeck[randomIndex];
-        
-            Card temp = userDeck[randomIndex];
-            userDeck[randomIndex] = userDeck[userDeck.length - 1];
-            userDeck[userDeck.length - 1] = temp;
+            userDeck[randomIndex] = null;
+            }else{
+                i--;
+            }
         }
         
         displayPlayerHands();
@@ -238,7 +265,7 @@ public class ShufflingCards{
         }
 
         for (int i = 0; i < usedCards.length; i++) {
-            if (!usedCards[i]) {
+            if (!usedCards[i] && deck[i] != null) {
                 return deck[i];
             }
         }
@@ -248,10 +275,11 @@ public class ShufflingCards{
 
     private void markCardAsUsed(Card card, boolean[] usedCards) {
         for (int i = 0; i < deck.length; i++) {
-            if (deck[i].equals(card)) {
-                usedCards[i] = true;
-                break;
-            }
+            if(deck[i] != null){
+                if(deck[i]==card){
+                    usedCards[i]=true;
+                    break;
+                }
         }
     }
-}
+}}

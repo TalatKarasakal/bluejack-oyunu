@@ -1,6 +1,7 @@
 package bluejack;
 //import java.util.Arrays;
 import java.util.Scanner;
+import java.util.Arrays;
 import java.util.Random;
 import bluejack.ShufflingCards.Card;
 
@@ -16,8 +17,8 @@ public class PlayingAlgorithm {
     int userTableIndex = 0;
     int computerTableIndex = 0;
 
-    private ShufflingCards.Card[] userTable = new Card[4];
-    private ShufflingCards.Card[] computerTable = new Card[4];
+    private ShufflingCards.Card[] userTable = new Card[6];
+    private ShufflingCards.Card[] computerTable = new Card[6];
     
     public PlayingAlgorithm(ShufflingCards shufflingCards, ShufflingCards.Card[] userTable, ShufflingCards.Card[] computerTable) {
         
@@ -26,8 +27,12 @@ public class PlayingAlgorithm {
     
     }
     
-    int userSum=0;
-    int computerSum=0;
+    int userSum = 0;
+    int computerSum = 0;
+
+    int userBlue = 0;
+    int computerBlue = 0;
+
         
     int userScore=0;
     int computerScore=0;
@@ -50,19 +55,7 @@ public class PlayingAlgorithm {
 
     while (gameover == false) {
 
-        
         while(tourover == false) {
-
-            if(userSum==20){ //Checking if the user won or not
-            userScore++;
-            System.out.println("User won the tour !!!");
-        }
-        if(computerSum==20){ //Checking if the computer won or not
-            computerScore++;
-            System.out.println("Computer won the tour :(");
-        }
-
-        System.out.println("User: " + userScore + ", Computer: " + computerScore); // show the score table
 
             drawnCard = shufflingCards.drawUnusedCard(); // draw an unused card
             
@@ -84,6 +77,7 @@ public class PlayingAlgorithm {
                 System.out.println(userHand); // show his/her hand deck
             
                 userSum = calculateUserTableSum(userTable);
+                userBlue = ca
 
                 if (cardNumber >= 1 && cardNumber <= 4) { // control for a selectable selection
                     
@@ -162,26 +156,41 @@ public class PlayingAlgorithm {
                         computerTableIndex++;
                     }
                 } 
-                else{
-                        System.out.println("Computer did not play a card.");
-                    }
             }
             
-        /*if(userSum==20){ //Checking if the user won or not
-            userScore++;
-            System.out.println("User won the tour !!!");
-        }
-        if(computerSum==20){ //Checking if the computer won or not
-            computerScore++;
-            System.out.println("Computer won the tour :(");
-        }*/
-
-        System.out.println("User: " + userScore + ", Computer: " + computerScore); // show the score table 
-
             }else{
                 System.out.println("Invalid choice. Please enter 'P' to play a card, or 'C' to continue.");
             }
+            
+            if(userSum == 20){ //Checking if the user won or not
+                userScore++;
+                System.out.println("User won the tour !!!");
+                System.out.println("User: " + userScore + ", Computer: " + computerScore); // show the score table
+                userSum = 0;
+                computerSum = 0;
+                userTableIndex = 0;
+                computerTableIndex = 0;
+                Arrays.fill(userTable, null);
+                Arrays.fill(computerTable, null);
+                tourover = true;
         }
+            if(computerSum == 20){ //Checking if the computer won or not
+                computerScore++;
+                System.out.println("Computer won the tour :(");
+                System.out.println("User: " + userScore + ", Computer: " + computerScore); // show the score table 
+                tourover = true;
+                userSum = 0;
+                computerSum = 0;
+                userTableIndex = 0;
+                computerTableIndex = 0;
+                Arrays.fill(userTable, null);
+                Arrays.fill(computerTable, null);
+        }
+        }
+        userSum = 0;
+        computerSum = 0;
+        tourover = false;
+        
         if(userScore==3||computerScore==3){
             System.out.println("The game has finished.");
             }
@@ -189,6 +198,7 @@ public class PlayingAlgorithm {
         if(userScore == 3){
                 System.out.println("User won the game.");
                 System.out.println("Congratulations !!!");
+                System.out.println("User: " + userScore + ", Computer: " + computerScore); // show the score table
                 gameover = true;
             }
 
@@ -196,8 +206,10 @@ public class PlayingAlgorithm {
                 System.out.println("Computer won the game.");
                 System.out.println("Nice try ");
                 System.out.println("we wait again");
+                System.out.println("User: " + userScore + ", Computer: " + computerScore); // show the score table
                 gameover = true;
             }        
+            
     }
 }    
     public int calculateUserTableSum(ShufflingCards.Card[] userTable) {
@@ -322,5 +334,27 @@ public class PlayingAlgorithm {
             default:
                 return Integer.parseInt(value);
         }
+    }
+    public String getColor(ShufflingCards.Card card) {
+        
+        return card.getColor();
+        
+    }
+    public static int calculateUserBlueSum(int userBlue) {
+        
+        
+        for (int i = 0; i < 6; i++) {
+            
+
+            
+            String color = getColor(userTable);
+
+            
+            if ("B" == color) {
+                userBlue++;
+            }
+        }
+
+        return userBlue;
     }
 }
