@@ -1,7 +1,6 @@
 package bluejack;
 import java.util.Arrays;
 import java.util.Random;
-import bluejack.PlayingAlgorithm;
 
 public class ShufflingCards{
 
@@ -246,40 +245,15 @@ public class ShufflingCards{
 
     // drawing unused cards
     public Card drawUnusedCard() {
-        boolean[] usedCards = new boolean[deck.length];
-
-        for (Card card : userDeck) {
-            markCardAsUsed(card, usedCards);
+        int randomIndex = random.nextInt(deck.length);
+    
+        while (deck[randomIndex] == null) {
+            randomIndex = random.nextInt(deck.length);
         }
-
-        for (Card card : computerDeck) {
-            markCardAsUsed(card, usedCards);
-        }
-
-        for (Card card : computerHand) {
-            markCardAsUsed(card, usedCards);
-        }
-
-        for (Card card : userHand) {
-            markCardAsUsed(card, usedCards);
-        }
-
-        for (int i = 0; i < usedCards.length; i++) {
-            if (!usedCards[i] && deck[i] != null) {
-                return deck[i];
-            }
-        }
-
-        return null; 
-    }
-
-    private void markCardAsUsed(Card card, boolean[] usedCards) {
-        for (int i = 0; i < deck.length; i++) {
-            if(deck[i] != null){
-                if(deck[i]==card){
-                    usedCards[i]=true;
-                    break;
-                }
-        }
-    }
-}}
+    
+        Card drawnCard = deck[randomIndex];
+        deck[randomIndex] = null;
+    
+        return drawnCard;
+    } 
+}
