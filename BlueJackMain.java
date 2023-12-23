@@ -6,8 +6,7 @@ public class BlueJackMain {
         System.out.println(shufflingCards);
         PlayingAlgorithm playingAlgorithm = new PlayingAlgorithm(shufflingCards, null, null);
         System.out.println(playingAlgorithm);
-        //PlayingAlgorithm play = new PlayingAlgorithm();
         playingAlgorithm.playGame();
-
+        playingAlgorithm.saveGameHistory(playingAlgorithm.getuser(), playingAlgorithm.getuserScore(), playingAlgorithm.getcomputerScore());
     }
 }

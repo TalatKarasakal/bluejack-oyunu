@@ -26,7 +26,7 @@ public class ShufflingCards{
             }
         }
     }
-    Random random = new Random(); // shuffle the deck.
+    Random random = new Random();
 
     Card[] deck = new Card[40];
     Card[] additionalDeck = new Card[48];
@@ -77,7 +77,7 @@ public class ShufflingCards{
         for(int i = 0 ; i < 3 ; i++) {
             int randomIndex = random.nextInt(additionalDeck.length);
             if(additionalDeck[randomIndex] != null){
-            Card card = additionalDeck[randomIndex];//additionalDeck.length - 1];
+            Card card = additionalDeck[randomIndex];
             computerDeck[computerIndex++] = card;
             additionalDeck[randomIndex]=null;
             }else{
@@ -92,7 +92,7 @@ public class ShufflingCards{
 
         for(int i = 0; i <2 ; i++){
             int randomIndex1 = random.nextInt(signedDeckChooser.length);
-            selectedElement1=signedDeckChooser[randomIndex1];
+            selectedElement1 = signedDeckChooser[randomIndex1];
             if(selectedElement1 == 0){
                 selectedElement1Sum++;
             }
@@ -118,7 +118,7 @@ public class ShufflingCards{
                 }   
             }else{
                 computerDeck[8] = new Card("+/-", "");
-                for(int i=0;i<1;i++){
+                for(int i=0 ; i<1 ; i++){
                 int randomIndex = random.nextInt(additionalDeck.length);
                     if(additionalDeck[randomIndex] != null){
                         Card card = additionalDeck[randomIndex];
@@ -131,7 +131,7 @@ public class ShufflingCards{
             }
         
         }else{
-            for (int i = 0; i < 2; i++) {
+            for (int i = 0 ; i < 2 ; i++) {
                 int randomIndex = random.nextInt(additionalDeck.length);
                 if(additionalDeck[randomIndex] != null){
                 Card card = additionalDeck[randomIndex];
@@ -144,7 +144,7 @@ public class ShufflingCards{
         }
 
         //computer hand
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0 ; i < 4 ; i++) {
             int randomIndex = random.nextInt(computerDeck.length);
             if(computerDeck[randomIndex] != null){
                 computerHand[i] = computerDeck[randomIndex];
@@ -337,6 +337,4 @@ public class ShufflingCards{
         }
         return drawnCard;
     }
-    
-        
 }
