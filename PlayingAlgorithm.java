@@ -1,12 +1,13 @@
 package bluejack;
 import java.util.Scanner;
-//import GameHistory;
 import java.util.Arrays;
 import java.util.Random;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Formatter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import bluejack.ShufflingCards.Card;
@@ -17,7 +18,6 @@ public class PlayingAlgorithm {
     Random random = new Random();
 
     ShufflingCards shufflingCards = new ShufflingCards();
-    //GameHistory gameHistory = new GameHistory();
     
     private ShufflingCards.Card drawnCard;
 
@@ -151,7 +151,7 @@ public class PlayingAlgorithm {
                 for(int i = 0 ; i < computerHand.length ; i++){ // Computer checks cards in hand.
                     ShufflingCards.Card currentCard = computerHand[i];
                         if(currentCard != null){ // Null cards must be audited as their value cannot be retrieved.
-                    int cardValue = getValue(currentCard); // The value of the currently controlled card is taken.
+                            int cardValue = getValue(currentCard); // The value of the currently controlled card is taken.
                 
                             if(20 - cardValue == computerSum){ // It is checked whether the current card can win or not.
                     
@@ -211,10 +211,25 @@ public class PlayingAlgorithm {
             computerSum = calculateComputerTableSum(computerTable); // Calculating the sum of the values of the blue cards on the computer's table.
             computerBlue = calculateComputerTableBlue(computerTable); // Calculating the sum of the values of the blue cards on the computer's table.
 
+            if(userBlue == 20){
+                userScore = 3;
+                System.out.println("BlueJack !!!");
+                System.out.println(user + " won the game !!!");
+                System.out.println(user + ": " + userScore + ", Computer: " + computerScore); // Showing the score table.
+                gameover = true;
+            }
+            if(computerBlue == 20){
+                computerScore = 3;
+                System.out.println("BlueJack !!!");
+                System.out.println("Computer won the game !!!");
+                System.out.println(user + ": " + userScore + ", Computer: " + computerScore); // Showing the score table.
+                gameover = true;
+            } 
             if(userSum == 20){ //Checking if the user won or not the tour.
                 userScore++;
                 System.out.println(user + " won the tour !!!");
                 System.out.println(user + ": " + userScore + ", Computer: " + computerScore); // Showing the score table.
+                
                 if(userScore != 3){
                     System.out.println("Next tour !!!");
                 }
@@ -228,7 +243,15 @@ public class PlayingAlgorithm {
                 // Filling the deck.
                 for(int j = 0; j < userTable.length; j++){
                     int randomIndex = random.nextInt(shufflingCards.deck.length);
-                    if(shufflingCards.deck[randomIndex] == null){
+                    /*int integerValueOfCurrentCard =1;
+                    if(userTable[j]!=null){
+                        Card currentCard = userTable[j];
+                        String valueOfCurrentCard = currentCard.getValue();
+                        integerValueOfCurrentCard = Integer.parseInt(valueOfCurrentCard);
+                    }*/
+                    
+
+                    if(shufflingCards.deck[randomIndex] == null /*&& integerValueOfCurrentCard > 0*/){
                         if(userTable[j] != null){
                             shufflingCards.deck[randomIndex] = userTable[j];
                         }else{
@@ -240,7 +263,14 @@ public class PlayingAlgorithm {
                 }
                 for(int k = 0; k < computerTable.length; k++){
                     int randomIndex = random.nextInt(shufflingCards.deck.length);
-                    if(shufflingCards.deck[randomIndex] == null) {
+                    /*int integerValueOfCurrentCard =1;
+                    if(computerTable[k]!=null){
+                        Card currentCard = computerTable[k];
+                        String valueOfCurrentCard = currentCard.getValue();
+                        integerValueOfCurrentCard = Integer.parseInt(valueOfCurrentCard);
+                    }*/
+                    
+                    if(shufflingCards.deck[randomIndex] == null /*&& integerValueOfCurrentCard > 0*/) {
                         if(computerTable[k] != null){
                             shufflingCards.deck[randomIndex] = computerTable[k];
                         }else{
@@ -273,7 +303,15 @@ public class PlayingAlgorithm {
                 // Filling the deck.
                 for(int j = 0; j < userTable.length; j++){
                     int randomIndex = random.nextInt(shufflingCards.deck.length);
-                    if(shufflingCards.deck[randomIndex] == null){
+                    /*int integerValueOfCurrentCard =1;
+                        if(userTable[j]!=null){
+                        Card currentCard = userTable[j];
+                        String valueOfCurrentCard = currentCard.getValue();
+                        integerValueOfCurrentCard = Integer.parseInt(valueOfCurrentCard);
+                    }*/
+                    
+
+                    if(shufflingCards.deck[randomIndex] == null/*  && integerValueOfCurrentCard > 0*/){
                         if(userTable[j] != null){
                             shufflingCards.deck[randomIndex] = userTable[j];
                         }else{
@@ -285,7 +323,14 @@ public class PlayingAlgorithm {
                 }
                 for(int k = 0; k < computerTable.length; k++){
                     int randomIndex = random.nextInt(shufflingCards.deck.length);
-                    if(shufflingCards.deck[randomIndex] == null) {
+                    /*int integerValueOfCurrentCard =1;
+                    if(computerTable[k]!=null){
+                        Card currentCard = computerTable[k];
+                        String valueOfCurrentCard = currentCard.getValue();
+                        integerValueOfCurrentCard = Integer.parseInt(valueOfCurrentCard);
+                    }*/
+                    
+                    if(shufflingCards.deck[randomIndex] == null/*  && integerValueOfCurrentCard>0*/) {
                         if(computerTable[k] != null){
                             shufflingCards.deck[randomIndex] = computerTable[k];
                         }else{
@@ -320,7 +365,14 @@ public class PlayingAlgorithm {
                     // Filling the deck.
                 for(int j = 0; j < userTable.length; j++){
                     int randomIndex = random.nextInt(shufflingCards.deck.length);
-                    if(shufflingCards.deck[randomIndex] == null){
+                    int integerValueOfCurrentCard =1;
+                    if(userTable[j]!=null){
+                        Card currentCard = userTable[j];
+                    String valueOfCurrentCard = currentCard.getValue();
+                    integerValueOfCurrentCard = Integer.parseInt(valueOfCurrentCard);
+                    }
+                    
+                    if(shufflingCards.deck[randomIndex] == null&&integerValueOfCurrentCard>0){
                         if(userTable[j] != null){
                             shufflingCards.deck[randomIndex] = userTable[j];
                         }else{
@@ -332,7 +384,14 @@ public class PlayingAlgorithm {
                 }
                 for(int k = 0; k < computerTable.length; k++){
                     int randomIndex = random.nextInt(shufflingCards.deck.length);
-                    if(shufflingCards.deck[randomIndex] == null) {
+                    /*int integerValueOfCurrentCard =1;
+                    if(computerTable[k]!=null){
+                        Card currentCard = computerTable[k];
+                        String valueOfCurrentCard = currentCard.getValue();
+                        integerValueOfCurrentCard = Integer.parseInt(valueOfCurrentCard);
+                    }*/
+                    
+                    if(shufflingCards.deck[randomIndex] == null /*&&integerValueOfCurrentCard>0*/) {
                         if(computerTable[k] != null){
                             shufflingCards.deck[randomIndex] = computerTable[k];
                         }else{
@@ -365,7 +424,14 @@ public class PlayingAlgorithm {
                     // Filling the deck.
                 for(int j = 0; j < userTable.length; j++){
                     int randomIndex = random.nextInt(shufflingCards.deck.length);
-                    if(shufflingCards.deck[randomIndex] == null){
+                    /*int integerValueOfCurrentCard =1;
+                    if(userTable[j]!=null){
+                        Card currentCard = userTable[j];
+                        String valueOfCurrentCard = currentCard.getValue();
+                        integerValueOfCurrentCard = Integer.parseInt(valueOfCurrentCard);
+                    }*/
+                    
+                    if(shufflingCards.deck[randomIndex] == null/*&&integerValueOfCurrentCard>0*/){
                         if(userTable[j] != null){
                             shufflingCards.deck[randomIndex] = userTable[j];
                         }else{
@@ -377,7 +443,14 @@ public class PlayingAlgorithm {
                 }
                 for(int k = 0; k < computerTable.length; k++){
                     int randomIndex = random.nextInt(shufflingCards.deck.length);
-                    if(shufflingCards.deck[randomIndex] == null) {
+                    /*int integerValueOfCurrentCard =1;
+                    if(computerTable[k]!=null){
+                        Card currentCard = computerTable[k];
+                        String valueOfCurrentCard = currentCard.getValue();
+                        integerValueOfCurrentCard = Integer.parseInt(valueOfCurrentCard);  
+                    }*/
+                    
+                    if(shufflingCards.deck[randomIndex] == null/*&&integerValueOfCurrentCard>0*/) {
                         if(computerTable[k] != null){
                             shufflingCards.deck[randomIndex] = computerTable[k];
                         }else{
@@ -406,7 +479,14 @@ public class PlayingAlgorithm {
                 // Filling the deck.
                 for(int j = 0; j < userTable.length; j++){
                     int randomIndex = random.nextInt(shufflingCards.deck.length);
-                    if(shufflingCards.deck[randomIndex] == null){
+                    /*int integerValueOfCurrentCard =1;
+                    if(userTable[j]!=null){
+                       Card currentCard = userTable[j];
+                        String valueOfCurrentCard = currentCard.getValue();
+                        integerValueOfCurrentCard = Integer.parseInt(valueOfCurrentCard); 
+                    }*/
+                    
+                    if(shufflingCards.deck[randomIndex] == null/*&&integerValueOfCurrentCard>0*/){
                         if(userTable[j] != null){
                             shufflingCards.deck[randomIndex] = userTable[j];
                         }else{
@@ -418,7 +498,14 @@ public class PlayingAlgorithm {
                 }
                 for(int k = 0; k < computerTable.length; k++){
                     int randomIndex = random.nextInt(shufflingCards.deck.length);
-                    if(shufflingCards.deck[randomIndex] == null) {
+                    /*int integerValueOfCurrentCard =1;
+                    if(computerTable[k]!=null){
+                        Card currentCard = computerTable[k];
+                        String valueOfCurrentCard = currentCard.getValue();
+                        integerValueOfCurrentCard = Integer.parseInt(valueOfCurrentCard);  
+                    }*/
+                    
+                    if(shufflingCards.deck[randomIndex] == null/*&&integerValueOfCurrentCard>0*/) {
                         if(computerTable[k] != null){
                             shufflingCards.deck[randomIndex] = computerTable[k];
                         }else{
@@ -435,20 +522,7 @@ public class PlayingAlgorithm {
             tourover = true;
                 }
             }
-            if(userBlue == 20){
-                userScore = 3;
-                System.out.println("BlueJack !!!");
-                System.out.println(user + " won the game !!!");
-                System.out.println(user + ": " + userScore + ", Computer: " + computerScore); // Showing the score table.
-                gameover = true;
-            }
-            if(computerBlue == 20){
-                computerScore = 3;
-                System.out.println("BlueJack !!!");
-                System.out.println("Computer won the game !!!");
-                System.out.println(user + ": " + userScore + ", Computer: " + computerScore); // Showing the score table.
-                gameover = true;
-            }   
+              
         }
         tourover = false;
         
@@ -467,7 +541,7 @@ public class PlayingAlgorithm {
         if(computerScore == 3){ // Checking if the computer won the game.
                 System.out.println("Computer won the game.");
                 System.out.println("Nice try ");
-                System.out.println("we wait again");
+                System.out.println("We wait again");
                 System.out.println(user + ": " + userScore + ", Computer: " + computerScore); // show the score table
                 gameover = true; // Finishing the game.
             }
@@ -477,21 +551,51 @@ public class PlayingAlgorithm {
     }
 }
     public void saveGameHistory(String user, int userScore, int computerScore) {
-        //String user = scanner.nextLine();
-        // Append the game history to the file
+        
         try (PrintWriter writer = new PrintWriter(new FileWriter("game_history.txt", true))) {
             Date now = new Date();
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String formattedDate = dateFormat.format(now);
-
-            writer.printf("[%s] %s: %d - %d :Computer Score%n",formattedDate, user, userScore, computerScore);
-            //writer.printf("Player: %s, User Score: %d, Computer Score: %d%n", user, userScore, computerScore);
+            if (getLineCount("game_history.txt") >= 11) {
+                removeFirstLine("game_history.txt");
+            }
+            if(user != null){
+                writer.printf("[%s] %s: %d - %d :Computer Score%n",formattedDate, user, userScore, computerScore);
+            }
         } catch (IOException e) {
             System.err.println("An error occurred while saving the game history.");
             e.printStackTrace();
         }
-    }    
-    // function that sums the values of the cards on the user's table
+    }
+    private static int getLineCount(String fileName) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            int lines = 0;
+            while (reader.readLine() != null) {
+                lines++;
+            }
+            return lines;
+        }
+    }
+    private static void removeFirstLine(String fileName) throws IOException {
+        File inputFile = new File(fileName);
+        File tempFile = new File("temp.txt");
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+             PrintWriter writer = new PrintWriter(new FileWriter(tempFile))) {
+
+            reader.readLine(); // Skip first line.
+
+            // Write the remaining lines to the temp file.
+            String line;
+            while ((line = reader.readLine()) != null) {
+                writer.println(line);
+            }
+        }
+
+        // Naming temporary file as main file.
+        tempFile.renameTo(inputFile);
+    }
+    // Function that sums the values of the cards on the user's table.
     public int calculateUserTableSum(ShufflingCards.Card[] userTable) {
         int userSum=0;
 
