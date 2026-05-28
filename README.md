@@ -23,17 +23,20 @@
 Bu projenin mimarisi ve geliştirme aşamaları, bir **"Yapay Zeka Ajanı" (AI Agent)** ile insan-makine iş birliği prensipleri çerçevesinde yürütülmüştür. Mimari kararlar, kod optimizasyonları ve algoritmik yapılandırmalar (özellikle `PlayingAlgorithm.java` içindeki karar ağaçları), modern yazılım mühendisliği pratikleri ve AI desteğinin birleşimiyle en üst seviyeye getirilmiştir. Bu yaklaşım, projenin hem teknik kalitesini hem de sürdürülebilirliğini artırmıştır.
 
 ### 🚀 Kurulum ve Çalıştırma Talimatları
-Uygulamayı yerel makinenizde çalıştırmak için aşağıdaki adımları takip edebilirsiniz:
 
-1. **Gereksinimler:** Sisteminizde JDK (Java Development Kit) 8 veya üzeri kurulu olmalıdır.
-2. **Derleme:** Terminal üzerinden proje ana dizinine gidin ve aşağıdaki komutu çalıştırın:
-   ```bash
-   javac -d . *.java
-   ```
-3. **Çalıştırma:** Derleme sonrası uygulamayı şu komutla başlatın:
-   ```bash
-   java bluejack.BlueJackMain
-   ```
+#### Gereksinimler
+- JDK 17+
+- Maven 3.8+
+
+#### Derleme
+```bash
+mvn clean package
+```
+
+#### Çalıştırma
+```bash
+java -jar target/bluejack-oyunu-1.0.0.jar
+```
 
 ---
 
@@ -60,14 +63,17 @@ Uygulamayı yerel makinenizde çalıştırmak için aşağıdaki adımları taki
 The architecture and development of this project were executed through **Human-AI Collaboration**, utilizing a sophisticated **AI Agent**. Architectural decisions, code optimizations, and algorithmic structuring (specifically the logic within `PlayingAlgorithm.java`) were refined through this iterative partnership. This approach showcases the integration of modern AI-assisted engineering to achieve high-quality, efficient, and robust code.
 
 ### 🚀 Installation and Execution Instructions
-Follow these steps to run the application locally:
 
-1. **Prerequisites:** Ensure you have JDK (Java Development Kit) 8 or later installed.
-2. **Compilation:** Navigate to the project directory and run the following command:
-   ```bash
-   javac -d . *.java
-   ```
-3. **Execution:** After compilation, launch the application using:
-   ```bash
-   java bluejack.BlueJackMain
-   ```
+#### Prerequisites
+- JDK 17+
+- Maven 3.8+
+
+#### Build
+```bash
+mvn clean package
+```
+
+#### Run
+```bash
+java -jar target/bluejack-oyunu-1.0.0.jar
+```
