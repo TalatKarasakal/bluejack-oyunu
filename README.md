@@ -1,5 +1,8 @@
 # bluejack-oyunu 🃏
 
+[![Latest Release](https://img.shields.io/github/v/release/TalatKarasakal/bluejack-oyunu)](https://github.com/TalatKarasakal/bluejack-oyunu/releases/latest)
+[![CI](https://github.com/TalatKarasakal/bluejack-oyunu/actions/workflows/ci.yml/badge.svg)](https://github.com/TalatKarasakal/bluejack-oyunu/actions/workflows/ci.yml)
+
 ## 🇹🇷 Türkçe Bölüm
 
 ### 📝 Proje Hakkında
