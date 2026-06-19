@@ -22,9 +22,6 @@
 - **Veri Yapıları:** `java.util.Random`, `java.util.Arrays`, `java.util.Scanner`
 - **Zaman Yönetimi:** `java.text.SimpleDateFormat`
 
-### 🤖 Geliştirme Süreci
-Bu projenin mimarisi ve geliştirme aşamaları, bir **"Yapay Zeka Ajanı" (AI Agent)** ile insan-makine iş birliği prensipleri çerçevesinde yürütülmüştür. Mimari kararlar, kod optimizasyonları ve algoritmik yapılandırmalar (özellikle `PlayingAlgorithm.java` içindeki karar ağaçları), modern yazılım mühendisliği pratikleri ve AI desteğinin birleşimiyle en üst seviyeye getirilmiştir. Bu yaklaşım, projenin hem teknik kalitesini hem de sürdürülebilirliğini artırmıştır.
-
 ### 🚀 Kurulum ve Çalıştırma Talimatları
 
 #### Gereksinimler
@@ -61,9 +58,6 @@ java -jar target/bluejack-oyunu-1.0.0.jar
 - **File I/O:** `java.io` (BufferedReader, FileWriter, PrintWriter)
 - **Data Structures:** `java.util.Random`, `java.util.Arrays`, `java.util.Scanner`
 - **Time Management:** `java.text.SimpleDateFormat`
-
-### 🤖 Development Process
-The architecture and development of this project were executed through **Human-AI Collaboration**, utilizing a sophisticated **AI Agent**. Architectural decisions, code optimizations, and algorithmic structuring (specifically the logic within `PlayingAlgorithm.java`) were refined through this iterative partnership. This approach showcases the integration of modern AI-assisted engineering to achieve high-quality, efficient, and robust code.
 
 ### 🚀 Installation and Execution Instructions
 
