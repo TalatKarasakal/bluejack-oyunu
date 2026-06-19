@@ -181,4 +181,101 @@ class PlayingAlgorithmTest {
     void getuser_InitiallyNull() {
         assertNull(pa.getuser());
     }
+
+    // ——— AI Decision Algorithm (executeComputerTurn) ———
+
+    @Test
+    @DisplayName("executeComputerTurn: Bilgisayar elinde kazanmasını sağlayacak normal bir kart varsa onu oynar")
+    void executeComputerTurn_PlaysWinningStandardCard() {
+        pa.computerHand = new ShufflingCards.Card[] {
+            card("6", "Y"), null, null, null
+        };
+        pa.computerTable = new ShufflingCards.Card[10];
+        pa.computerTable[0] = card("10", "R");
+        pa.computerTable[1] = card("4", "G");
+        pa.computerTableIndex = 2;
+        pa.computerSum = 14;
+
+        pa.executeComputerTurn(card("1", "R"));
+
+        assertEquals(20, pa.computerSum);
+        assertNull(pa.computerHand[0]);
+        assertEquals("6-Y", pa.computerTable[2].toString());
+        assertEquals(3, pa.computerTableIndex);
+    }
+
+    @Test
+    @DisplayName("executeComputerTurn: Bilgisayar elinde 20 + cardValue == computerSum koşulunu sağlayan bir kartı oynar")
+    void executeComputerTurn_PlaysBustFixingStandardCard() {
+        pa.computerHand = new ShufflingCards.Card[] {
+            card("5", "Y"), null, null, null
+        };
+        pa.computerTable = new ShufflingCards.Card[10];
+        pa.computerTable[0] = card("10", "R");
+        pa.computerTable[1] = card("10", "G");
+        pa.computerTable[2] = card("5", "B");
+        pa.computerTableIndex = 3;
+        pa.computerSum = 25;
+
+        pa.executeComputerTurn(card("1", "R"));
+
+        assertEquals(30, pa.computerSum);
+        assertNull(pa.computerHand[0]);
+        assertEquals("5-Y", pa.computerTable[3].toString());
+        assertEquals(4, pa.computerTableIndex);
+    }
+
+    @Test
+    @DisplayName("executeComputerTurn: 2x kartı ile tam 20'ye ulaşıyorsa oynar")
+    void executeComputerTurn_Plays2xSpecialCard() {
+        pa.computerSum = 12;
+        pa.computerTableIndex = 1;
+        pa.computerTable = new ShufflingCards.Card[10];
+        pa.computerTable[1] = card("4", "G");
+        pa.computerHand = new ShufflingCards.Card[] {
+            card("2x", ""), null, null, null
+        };
+
+        pa.executeComputerTurn(pa.computerTable[1]);
+
+        assertEquals(20, pa.computerSum);
+        assertNull(pa.computerHand[0]);
+        assertEquals(2, pa.computerTableIndex);
+    }
+
+    @Test
+    @DisplayName("executeComputerTurn: +/- kartı ile 20'ye ulaşma koşulu sağlanıyorsa oynar")
+    void executeComputerTurn_PlaysPlusMinusSpecialCard() {
+        pa.computerSum = 28;
+        pa.computerTableIndex = 1;
+        pa.computerTable = new ShufflingCards.Card[10];
+        pa.computerTable[1] = card("4", "G");
+        pa.computerHand = new ShufflingCards.Card[] {
+            card("+/-", ""), null, null, null
+        };
+
+        pa.executeComputerTurn(pa.computerTable[1]);
+
+        assertEquals(36, pa.computerSum);
+        assertNull(pa.computerHand[0]);
+        assertEquals(2, pa.computerTableIndex);
+    }
+
+    @Test
+    @DisplayName("executeComputerTurn: Kazanma koşulu yoksa hiçbir kart oynamaz")
+    void executeComputerTurn_NoWinningCard_DoesNotPlay() {
+        pa.computerSum = 10;
+        pa.computerTableIndex = 0;
+        pa.computerTable = new ShufflingCards.Card[10];
+        pa.computerHand = new ShufflingCards.Card[] {
+            card("5", "Y"), card("2", "G"), null, null
+        };
+
+        pa.executeComputerTurn(card("1", "R"));
+
+        assertEquals(10, pa.computerSum);
+        assertNotNull(pa.computerHand[0]);
+        assertNotNull(pa.computerHand[1]);
+        assertEquals(0, pa.computerTableIndex);
+    }
 }

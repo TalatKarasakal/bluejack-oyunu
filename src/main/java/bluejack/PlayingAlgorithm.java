@@ -26,8 +26,8 @@ public class PlayingAlgorithm {
     int userTableIndex = 0;
     int computerTableIndex = 0;
 
-    private ShufflingCards.Card[] userTable = new Card[10];
-    private ShufflingCards.Card[] computerTable = new Card[10];
+    ShufflingCards.Card[] userTable = new Card[10];
+    ShufflingCards.Card[] computerTable = new Card[10];
     
     public PlayingAlgorithm(ShufflingCards shufflingCards, ShufflingCards.Card[] userTable, ShufflingCards.Card[] computerTable) {
         
@@ -148,62 +148,7 @@ public class PlayingAlgorithm {
             
             computerTableIndex++; // To avoid problems when adding cards.
 
-                for(int i = 0 ; i < computerHand.length ; i++){ // Computer checks cards in hand.
-                    ShufflingCards.Card currentCard = computerHand[i];
-                        if(currentCard != null){ // Null cards must be audited as their value cannot be retrieved.
-                            int cardValue = getValue(currentCard); // The value of the currently controlled card is taken.
-                
-                            if(20 - cardValue == computerSum){ // It is checked whether the current card can win or not.
-                    
-                                computerTable[computerTableIndex] = computerHand[i]; 
-                                System.out.println("Computer have played: " + computerHand[i]);
-                                System.out.println("Computer table: " + Arrays.toString(computerTable));
-                                computerBlue = calculateComputerTableBlue(computerTable); // Calculating the sum of the values of the blue cards on the computer's table.
-                                computerSum = calculateComputerTableSum(computerTable); // Calculating the sum of the values of the blue cards on the computer's table.
-                                //System.out.println("Computer table sum: " + computerSum + " - " + computerBlue + " :Computer blue sum");
-                                computerHand[i] = null;// The used card is discarded from the hand.
-                                computerTableIndex++; // To avoid problems when adding cards.
-                            }
-                            if(20 + cardValue == computerSum){ // It is checked whether the current card can win or not.
-                    
-                                computerTable[computerTableIndex] = computerHand[i];
-                                System.out.println("Computer have played: " + computerHand[i]);
-                                System.out.println("Computer table: " + Arrays.toString(computerTable));
-                                computerBlue = calculateComputerTableBlue(computerTable); // Calculating the sum of the values of the blue cards on the computer's table.
-                                computerSum = calculateComputerTableSum(computerTable); // Calculating the sum of the values of the blue cards on the computer's table.
-                                //System.out.println("Computer table sum: " + computerSum + " - " + computerBlue + " :Computer blue sum");
-                                computerHand[i] = null;// The used card is discarded from the hand.
-                                computerTableIndex++; // To avoid problems when adding cards.
-                            }
-                            if (cardValue == 0) {
-
-                            int drawnCardValue = getValue(drawnCard);
-
-                            if(drawnCardValue*2 + computerSum == 20){// It is checked whether the current card can win or not.
-                        
-                                computerHand[i] = computerTable[computerTableIndex]; 
-                                System.out.println("Computer have played: " + computerHand[i]);
-                                System.out.println("Computer table: " + Arrays.toString(computerTable));
-                                computerSum += drawnCardValue*2;
-                                //System.out.println("Computer table sum: " + computerSum + " - " + computerBlue + " :Computer blue sum");
-                                computerHand[i] = null;// The used card is discarded from the hand.
-                                computerTableIndex++; // To avoid problems when adding cards.
-                            }
-                            if(-1*drawnCardValue + (computerSum - drawnCardValue) == 20){//It is checked whether the current card can win or not.
-                        
-                                computerHand[i] = computerTable[computerTableIndex];
-                                System.out.println("Computer have played: " + computerHand[i]);
-                                System.out.println("Computer table: " + Arrays.toString(computerTable));
-                                computerSum -= 2*(-1*drawnCardValue);
-                                //System.out.println("Computer table sum: " + computerSum + " - " + computerBlue + " :Computer blue sum");
-                                computerHand[i] = null;// The used card is discarded from the hand.
-                                computerTableIndex++; // To avoid problems when adding cards.
-                            }
-                            }
-                        }else{
-                            continue;
-                        }     
-                }
+                executeComputerTurn(drawnCard);
             }
 
             userSum = calculateUserTableSum(userTable); // Calculating the sum of the values of the blue cards on the user's table.
@@ -755,5 +700,59 @@ public class PlayingAlgorithm {
     }
     public int getcomputerScore(){
         return computerScore;
+    }
+
+    public void executeComputerTurn(ShufflingCards.Card drawnCard) {
+        for(int i = 0 ; i < computerHand.length ; i++){ // Computer checks cards in hand.
+            ShufflingCards.Card currentCard = computerHand[i];
+            if(currentCard != null){ // Null cards must be audited as their value cannot be retrieved.
+                int cardValue = getValue(currentCard); // The value of the currently controlled card is taken.
+    
+                if(20 - cardValue == computerSum){ // It is checked whether the current card can win or not.
+                    computerTable[computerTableIndex] = computerHand[i]; 
+                    System.out.println("Computer have played: " + computerHand[i]);
+                    System.out.println("Computer table: " + Arrays.toString(computerTable));
+                    computerBlue = calculateComputerTableBlue(computerTable); // Calculating the sum of the values of the blue cards on the computer's table.
+                    computerSum = calculateComputerTableSum(computerTable); // Calculating the sum of the values of the blue cards on the computer's table.
+                    //System.out.println("Computer table sum: " + computerSum + " - " + computerBlue + " :Computer blue sum");
+                    computerHand[i] = null;// The used card is discarded from the hand.
+                    computerTableIndex++; // To avoid problems when adding cards.
+                }
+                if(20 + cardValue == computerSum){ // It is checked whether the current card can win or not.
+                    computerTable[computerTableIndex] = computerHand[i];
+                    System.out.println("Computer have played: " + computerHand[i]);
+                    System.out.println("Computer table: " + Arrays.toString(computerTable));
+                    computerBlue = calculateComputerTableBlue(computerTable); // Calculating the sum of the values of the blue cards on the computer's table.
+                    computerSum = calculateComputerTableSum(computerTable); // Calculating the sum of the values of the blue cards on the computer's table.
+                    //System.out.println("Computer table sum: " + computerSum + " - " + computerBlue + " :Computer blue sum");
+                    computerHand[i] = null;// The used card is discarded from the hand.
+                    computerTableIndex++; // To avoid problems when adding cards.
+                }
+                if (cardValue == 0) {
+                    int drawnCardValue = getValue(drawnCard);
+
+                    if(drawnCardValue*2 + computerSum == 20){// It is checked whether the current card can win or not.
+                        computerHand[i] = computerTable[computerTableIndex]; 
+                        System.out.println("Computer have played: " + computerHand[i]);
+                        System.out.println("Computer table: " + Arrays.toString(computerTable));
+                        computerSum += drawnCardValue*2;
+                        //System.out.println("Computer table sum: " + computerSum + " - " + computerBlue + " :Computer blue sum");
+                        computerHand[i] = null;// The used card is discarded from the hand.
+                        computerTableIndex++; // To avoid problems when adding cards.
+                    }
+                    if(-1*drawnCardValue + (computerSum - drawnCardValue) == 20){//It is checked whether the current card can win or not.
+                        computerHand[i] = computerTable[computerTableIndex];
+                        System.out.println("Computer have played: " + computerHand[i]);
+                        System.out.println("Computer table: " + Arrays.toString(computerTable));
+                        computerSum -= 2*(-1*drawnCardValue);
+                        //System.out.println("Computer table sum: " + computerSum + " - " + computerBlue + " :Computer blue sum");
+                        computerHand[i] = null;// The used card is discarded from the hand.
+                        computerTableIndex++; // To avoid problems when adding cards.
+                    }
+                }
+            }else{
+                continue;
+            }     
+        }
     }
 }
